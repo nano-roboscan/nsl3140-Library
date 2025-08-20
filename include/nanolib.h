@@ -168,25 +168,6 @@ namespace  NslOption {
 	
 	typedef struct NslVec3b_ {
 		unsigned char b, g, r;
-	
-		NslVec3b_() : b(0), g(0), r(0) {}
-		NslVec3b_(unsigned char b, unsigned char g, unsigned char r) : b(b), g(g), r(r) {}
-	
-		unsigned char& operator[](int index) {
-			if( index == 0 ) return b;
-			else if( index == 1 ) return g;
-	
-			return r;
-		}
-	
-		const unsigned char& operator[](int  index) const {
-			if( index == 0 ) return b;
-			else if( index == 1 ) return g;
-	
-			return r;
-		}
-	
-	
 	}NslVec3b;
 
 	inline const char* toString(FUNCTION_OPTIONS c) {
@@ -451,7 +432,7 @@ typedef struct NslPCD_{
 }NslPCD;
 
 #if defined(__cplusplus)
-//extern "C" {
+extern "C" {
 #endif
 
 
@@ -998,7 +979,7 @@ NSLTOF_API NslOption::NslVec3b nsl_getDistanceColor(int value);
 NSLTOF_API NslOption::NslVec3b nsl_getAmplitudeColor(int value);
 
 #if defined(__cplusplus)
-//}
+}
 #endif
 
 
