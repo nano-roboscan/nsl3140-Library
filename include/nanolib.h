@@ -910,6 +910,18 @@ NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_getLedSegment(int handle, int *mask);
 
 
 /**
+ * @brief function for sending undefined commands in the library
+ * 
+ * @param handle : handle value by nsl_open()
+ * @param *rawCommand : opcode and data(only Payload)
+ * @param nLen : rawCommand length
+ * 
+ * @return NSL_ERROR_TYPE 
+ */
+NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_sendRawCommand(int handle, unsigned char *rawCommand, int nLen);
+
+
+/**
  * @brief Saves the parameters set so far to the device.
  * 
  * @param handle : handle value by nsl_open()
