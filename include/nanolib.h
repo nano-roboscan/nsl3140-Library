@@ -886,6 +886,17 @@ NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_setLedSegment(int handle, int mask);
 
 
 /**
+ * @brief Reads the sensor's Led segment. (default : 15)
+ * 
+ * @param handle : handle value by nsl_open()
+ * @param *mask : 0, 1 < 0:off, 1 : LEDs in the lower two rows, 4 : LEDs in the upper two rows, 15 : all LED >
+ * 
+ * @return NSL_ERROR_TYPE 
+ */
+NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_getLedSegment(int handle, int *mask);
+
+
+/**
  * @brief Reads the sensor's Bit Information.
  * 
  * @param handle : handle value by nsl_open()
@@ -895,15 +906,6 @@ NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_setLedSegment(int handle, int mask);
  */
 NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_getBitInfo(int handle, NslBitInfo *bitInfo);
 
-/**
- * @brief Reads the sensor's Led segment. (default : 15)
- * 
- * @param handle : handle value by nsl_open()
- * @param *mask : 0, 1 < 0:off, 1 : LEDs in the lower two rows, 4 : LEDs in the upper two rows, 15 : all LED >
- * 
- * @return NSL_ERROR_TYPE 
- */
-NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_getLedSegment(int handle, int *mask);
 
 /**
  * @brief function for sending undefined commands in the library
