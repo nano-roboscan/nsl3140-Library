@@ -82,7 +82,8 @@ namespace  NslOption {
 		MOD_12Mhz = 0,
 		MOD_24Mhz = 1,
 		MOD_6Mhz = 2,
-		MOD_3Mhz = 3
+		MOD_3Mhz = 3,		
+		MOD_1p5MHz = 4
 	};
 
 	enum class MODULATION_CH_OPTIONS
@@ -141,15 +142,6 @@ namespace  NslOption {
 		RGB_DISTANCE_GRAYSCALE_MODE = 8
 	};
 
-	enum class NSL_DATA_TYPE
-	{
-		NONE_DATA_TYPE = 0,
-		DISTANCE_DATA_TYPE = 1,
-		GRAYSCALE_DATA_TYPE = 2,
-		DISTANCE_AMPLITUDE_DATA_TYPE = 3,
-		DISTANCE_GRAYSCALE_DATA_TYPE = 4,
-		RGB_DATA_TYPE = 5
-	};
 
 	enum class NSL_ERROR_TYPE
 	{
@@ -222,6 +214,7 @@ namespace  NslOption {
             case MODULATION_OPTIONS::MOD_24Mhz: 		return "MOD_24Mhz";
             case MODULATION_OPTIONS::MOD_6Mhz: 			return "MOD_6Mhz";
             case MODULATION_OPTIONS::MOD_3Mhz: 			return "MOD_3Mhz";
+			case MODULATION_OPTIONS::MOD_1p5MHz:		return "MOD_1.5Mhz";
         }
 
 		return "Unknown";
@@ -288,19 +281,6 @@ namespace  NslOption {
 		return "Unknown";
     }
 
-	inline const char* toString(NSL_DATA_TYPE c) {
-        switch (c) {
-            case NSL_DATA_TYPE::NONE_DATA_TYPE:   				return "NONE_DATA_TYPE";
-            case NSL_DATA_TYPE::DISTANCE_DATA_TYPE: 			return "DISTANCE_DATA_TYPE";
-            case NSL_DATA_TYPE::DISTANCE_AMPLITUDE_DATA_TYPE:  	return "DISTANCE_AMPLITUDE_DATA_TYPE";
-            case NSL_DATA_TYPE::DISTANCE_GRAYSCALE_DATA_TYPE:  	return "DISTANCE_GRAYSCALE_DATA_TYPE";
-            case NSL_DATA_TYPE::GRAYSCALE_DATA_TYPE:			return "GRAYSCALE_DATA_TYPE";
-            case NSL_DATA_TYPE::RGB_DATA_TYPE:			 		return "RGB_DATA_TYPE";
-        }
-
-		return "Unknown";
-    }
-
 	inline const char* toString(NSL_ERROR_TYPE c) {
         switch (c) {
             case NSL_ERROR_TYPE::NSL_SUCCESS:   				return "NSL_SUCCESS";
@@ -316,8 +296,14 @@ namespace  NslOption {
 
 		return "Unknown";
     }
-};
+}
 
+typedef struct NslBitInfo_
+{
+	int			current;
+	double		voltage;
+	double		temperature;
+}NslBitInfo;
 
 typedef struct NslConfig_
 {	
@@ -352,6 +338,7 @@ typedef struct NslConfig_
 
 	// installed lidar angle(-90 ~ 90)
 	double		lidarAngle;
+	
 
 	NslOption::LIDAR_TYPE_OPTIONS		lidarType;
 
@@ -500,7 +487,7 @@ NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_streamingOff(int handle);
  * 
  * @return NSL_ERROR_TYPE 
  */
-NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_getPointCloudData(int handle, NslPCD *pcdData, int waitTimeMs = 0);
+NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_getPointCloudData(int handle, NslPCD *pcdData, int waitTimeMs);
 
 
 /**
@@ -899,6 +886,16 @@ NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_setLedSegment(int handle, int mask);
 
 
 /**
+ * @brief Reads the sensor's Bit Information.
+ * 
+ * @param handle : handle value by nsl_open()
+ * @param *bitInfo : bitInfo[0]:current, bitInfo[1]:voltage, bitInfo[2]:temperature
+ * 
+ * @return NSL_ERROR_TYPE 
+ */
+NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_getBitInfo(int handle, NslBitInfo *bitInfo);
+
+/**
  * @brief Reads the sensor's Led segment. (default : 15)
  * 
  * @param handle : handle value by nsl_open()
@@ -907,7 +904,6 @@ NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_setLedSegment(int handle, int mask);
  * @return NSL_ERROR_TYPE 
  */
 NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_getLedSegment(int handle, int *mask);
-
 
 /**
  * @brief function for sending undefined commands in the library
