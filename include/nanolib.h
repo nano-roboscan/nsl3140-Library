@@ -9,37 +9,37 @@
 
 #define NSL_MAX_HANDLE_SIZE			10
 
-#define NSL_LIDAR_TYPE_A_WIDTH 		320
+#define NSL_LIDAR_TYPE_A_WIDTH 			320
 #define NSL_LIDAR_TYPE_A_HEIGHT		240
-#define NSL_LIDAR_TYPE_B_WIDTH 		800
+#define NSL_LIDAR_TYPE_B_WIDTH 			800
 #define NSL_LIDAR_TYPE_B_HEIGHT		600
-#define NSL_LIDAR_IMAGE_BPP 		2
+#define NSL_LIDAR_IMAGE_BPP 			2
 
-#define NSL_RGB_IMAGE_WIDTH 		1920
-#define NSL_RGB_IMAGE_HEIGHT		1080
-#define NSL_RGB_IMAGE_BPP 			2
+#define NSL_RGB_IMAGE_WIDTH 			1920
+#define NSL_RGB_IMAGE_HEIGHT			1080
+#define NSL_RGB_IMAGE_BPP 				2
 
 #define MAX_GRAYSCALE_VALUE			2897
 
 #define	MAX_DISTANCE_24MHZ			6250	// mm
-#define	MAX_DISTANCE_12MHZ			12500	// mm
-#define	MAX_DISTANCE_6MHZ			25000	// mm
-#define	MAX_DISTANCE_3MHZ			50000	// mm 
+#define	MAX_DISTANCE_12MHZ				12500	// mm
+#define	MAX_DISTANCE_6MHZ				25000	// mm
+#define	MAX_DISTANCE_3MHZ				50000	// mm 
 
 //Special codes for pixels without valid data
-#define NSL_LIMIT_FOR_VALID_DATA 	64000
-#define NSL_LOW_AMPLITUDE			64001
-#define NSL_ADC_OVERFLOW			64002
-#define NSL_SATURATION				64003
-#define NSL_BAD_PIXEL 				64004
-#define NSL_LOW_DCS					64005
-#define NSL_INTERFERENCE			64007
-#define NSL_EDGE_DETECTED			64008
+#define NSL_LIMIT_FOR_VALID_DATA 		64000
+#define NSL_LOW_AMPLITUDE				64001
+#define NSL_ADC_OVERFLOW				64002
+#define NSL_SATURATION					64003
+#define NSL_BAD_PIXEL 					64004
+#define NSL_LOW_DCS						64005
+#define NSL_INTERFERENCE				64007
+#define NSL_EDGE_DETECTED				64008
 
-#define OUT_X						0
-#define OUT_Y						1
-#define OUT_Z						2
-#define MAX_OUT						3
+#define OUT_X								0
+#define OUT_Y								1
+#define OUT_Z								2
+#define MAX_OUT							3
 
 
 namespace  NslOption {
@@ -155,8 +155,6 @@ namespace  NslOption {
 		NSL_ANSWER_ERROR = -7,
 		NSL_INVALID_PARAMETER = -8
 	};
-
-	
 	
 	typedef struct NslVec3b_ {
 		unsigned char b, g, r;
@@ -305,6 +303,10 @@ typedef struct NslBitInfo_
 	double		temperature;
 }NslBitInfo;
 
+typedef struct NslROI_{
+	int x_start, y_start, x_end, y_end;
+}NslROI;
+
 typedef struct NslConfig_
 {	
 	//Integration time
@@ -414,7 +416,7 @@ typedef struct NslPCD_{
 	int 				binning_v;			// 1 : normal operation, 2 : vertical binning
 	int 				amplitude[NSL_LIDAR_TYPE_B_HEIGHT][NSL_LIDAR_TYPE_B_WIDTH];	// amplitude data
 	int 				distance2D[NSL_LIDAR_TYPE_B_HEIGHT][NSL_LIDAR_TYPE_B_WIDTH];	// distance data
-	double				distance3D[MAX_OUT][NSL_LIDAR_TYPE_B_HEIGHT][NSL_LIDAR_TYPE_B_WIDTH]; // point clouds 3D data
+	double			distance3D[MAX_OUT][NSL_LIDAR_TYPE_B_HEIGHT][NSL_LIDAR_TYPE_B_WIDTH]; // point clouds 3D data
 	NslOption::NslVec3b	rgb[NSL_RGB_IMAGE_HEIGHT][NSL_RGB_IMAGE_WIDTH]; // RGB data
 }NslPCD;
 
@@ -840,6 +842,30 @@ NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_setCorrection(int handle, NslOption::FU
 NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_getCorrection(int handle, NslOption::FUNCTION_OPTIONS *drnu, NslOption::FUNCTION_OPTIONS *temperature, NslOption::FUNCTION_OPTIONS *grayscale, NslOption::FUNCTION_OPTIONS *ambientlight);
 
 
+
+/**
+ * @brief Sets auto integration function
+ * 
+ * @param handle : handle value by nsl_open()
+ * @param OnOff : ON, OFF
+ * 
+ * @return NSL_ERROR_TYPE 
+ */
+NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_setAutoIntegrationTime(int handle, NslROI *roi, NslOption::FUNCTION_OPTIONS OnOff);
+
+
+
+/**
+ * @brief Read auto integration function
+ * 
+ * @param handle : handle value by nsl_open()
+ * @param *OnOff : ON, OFF
+ * @param *currentIntTime : changed integration time
+ * 
+ * @return NSL_ERROR_TYPE 
+ */
+NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_getAutoIntegrationTime(int handle, NslOption::FUNCTION_OPTIONS *OnOff, int *currentIntTime, int *currentOverflowCnt);
+
 /**
  * @brief Sets  the sensor's ip address
  * 
@@ -916,7 +942,7 @@ NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_getBitInfo(int handle, NslBitInfo *bitI
  * 
  * @return NSL_ERROR_TYPE 
  */
-NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_sendRawCommand(int handle, unsigned char *rawCommand, int nLen);
+NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_sendRawCommand(int handle, unsigned char *rawCommand, int nLen, NslOption::FUNCTION_OPTIONS waitAck);
 
 
 /**
