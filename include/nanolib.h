@@ -5,8 +5,6 @@
 #define NSLTOF_API
 #endif
 
-#include <vector>
-
 #define NSL_MAX_HANDLE_SIZE			10
 
 #define NSL_LIDAR_TYPE_A_WIDTH			320
@@ -440,7 +438,7 @@ extern "C" {
  * 
  * @return created handle value
  */
-NSLTOF_API int nsl_open(const char *ipaddr, NslConfig *ptNslConfig, NslOption::FUNCTION_OPTIONS enabledDebug = NslOption::FUNCTION_OPTIONS::FUNC_OFF);
+NSLTOF_API int nsl_open(const char *ipaddr, NslConfig *ptNslConfig, NslOption::FUNCTION_OPTIONS enabledDebug);
 
 
 /**
