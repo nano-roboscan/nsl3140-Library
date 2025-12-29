@@ -9,11 +9,11 @@
 
 #define NSL_MAX_HANDLE_SIZE			10
 
-#define NSL_LIDAR_TYPE_A_WIDTH 			320
-#define NSL_LIDAR_TYPE_A_HEIGHT		240
-#define NSL_LIDAR_TYPE_B_WIDTH 			800
-#define NSL_LIDAR_TYPE_B_HEIGHT		600
-#define NSL_LIDAR_IMAGE_BPP 			2
+#define NSL_LIDAR_TYPE_A_WIDTH			320
+#define NSL_LIDAR_TYPE_A_HEIGHT			240
+#define NSL_LIDAR_TYPE_B_WIDTH			800
+#define NSL_LIDAR_TYPE_B_HEIGHT			600
+#define NSL_LIDAR_IMAGE_BPP				2
 
 #define NSL_RGB_IMAGE_WIDTH 			1920
 #define NSL_RGB_IMAGE_HEIGHT			1080
@@ -21,7 +21,7 @@
 
 #define MAX_GRAYSCALE_VALUE			2897
 
-#define	MAX_DISTANCE_24MHZ			6250	// mm
+#define	MAX_DISTANCE_24MHZ				6250	// mm
 #define	MAX_DISTANCE_12MHZ				12500	// mm
 #define	MAX_DISTANCE_6MHZ				25000	// mm
 #define	MAX_DISTANCE_3MHZ				50000	// mm 
@@ -295,6 +295,8 @@ namespace  NslOption {
 		return "Unknown";
     }
 }
+
+typedef void (*DbgLogCallback)(const char* msg);
 
 typedef struct NslBitInfo_
 {
@@ -923,6 +925,28 @@ NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_getLedSegment(int handle, int *mask);
 
 
 /**
+ * @brief Sets the sensor's vertical Angle.
+ * 
+ * @param handle : handle value by nsl_open()
+ * @param angle : vertical angle (0 ~ 90)
+ * 
+ * @return NSL_ERROR_TYPE 
+ */
+NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_setLidarAngle(int handle, double angle);
+
+
+/**
+ * @brief Reads the sensor's vertical Angle
+ * 
+ * @param handle : handle value by nsl_open()
+ * @param *Angle : vertical angle
+ * 
+ * @return NSL_ERROR_TYPE 
+ */
+NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_getLidarAngle(int handle, double *angle);
+
+
+/**
  * @brief Reads the sensor's Bit Information.
  * 
  * @param handle : handle value by nsl_open()
@@ -968,21 +992,6 @@ NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_getCurrentConfig(int handle, NslConfig 
 
 /******************* 3D Point Cloud SDK *****************************/
 
-
-/**
- * @brief Returns the point cloud distance at a pixel location.
- * 
- * @param srcX : Pixel index of width
- * @param srcY : Pixel index of height
- * @param srcZ : 2D distance to pixel
- * @param destX : catesian distance of width
- * @param destY : catesian distance of height
- * @param destZ : catesian distance to pixel
- * @param transformAngle : Vertical installation angle of lidar
- * 
- * @return void 
- */
-NSLTOF_API void nsl_transformPixel(unsigned int srcX, unsigned int srcY, double srcZ, double *destX, double *destY, double *destZ);
 
 /**
  * @brief Sets the 2D color of distance and amplitude.
