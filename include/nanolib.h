@@ -294,8 +294,6 @@ namespace  NslOption {
     }
 }
 
-typedef void (*DbgLogCallback)(const char* msg);
-
 typedef struct NslBitInfo_
 {
 	int			current;
@@ -396,8 +394,6 @@ typedef struct NslConfig_
 	NslOption::FUNCTION_OPTIONS		grayscaleIlluminationOpt;
 }NslConfig, *LP_NslConfig;
 
-
-
 typedef struct NslPCD_{
 	NslOption::OPERATION_MODE_OPTIONS 	operationMode; // DISTANCE_MODE, DISTANCE_AMPLITUDE_MODE, DISTANCE_GRAYSCALE_MODE, RGB_MODE, RGB_DISTANCE_MODE, RGB_DISTANCE_AMPLITUDE_MODE, RGB_DISTANCE_GRAYSCALE_MODE
 	NslOption::LIDAR_TYPE_OPTIONS		lidarType; // TYPE_A(320x240), TYPE_B(800x600)
@@ -417,7 +413,6 @@ typedef struct NslPCD_{
 	int 				amplitude[NSL_LIDAR_TYPE_B_HEIGHT][NSL_LIDAR_TYPE_B_WIDTH];	// amplitude data
 	int 				distance2D[NSL_LIDAR_TYPE_B_HEIGHT][NSL_LIDAR_TYPE_B_WIDTH];	// distance data
 	double			distance3D[MAX_OUT][NSL_LIDAR_TYPE_B_HEIGHT][NSL_LIDAR_TYPE_B_WIDTH]; // point clouds 3D data
-	NslOption::NslVec3b	rgb[NSL_RGB_IMAGE_HEIGHT][NSL_RGB_IMAGE_WIDTH]; // RGB data
 }NslPCD;
 
 #if defined(__cplusplus)
@@ -486,10 +481,23 @@ NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_streamingOff(int handle);
  * 
  * @param handle : handle value by nsl_open()
  * @param pcdData : lidar data info pointer < NslPCD * >
+ * @param waitTimeMs : Wait time for reception
  * 
  * @return NSL_ERROR_TYPE 
  */
 NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_getPointCloudData(int handle, NslPCD *pcdData, int waitTimeMs);
+
+/**
+ * @brief Read lidar pointcloud data
+ * 
+ * @param handle : handle value by nsl_open()
+ * @param pcdData : lidar data info pointer < NslPCD * >
+ * @param ptRgb : rgb data info pointer < ptRgb * >
+ * @param waitTimeMs : Wait time for reception
+ * 
+ * @return NSL_ERROR_TYPE 
+ */
+NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_getPointCloudRgbData(int handle, NslPCD *pcdData, NslOption::NslVec3b *ptRgb, int waitTimeMs);
 
 
 /**
