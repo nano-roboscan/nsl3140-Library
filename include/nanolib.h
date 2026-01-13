@@ -294,17 +294,6 @@ namespace  NslOption {
     }
 }
 
-typedef struct NslBitInfo_
-{
-	int			current;
-	double		voltage;
-	double		temperature;
-}NslBitInfo;
-
-typedef struct NslROI_{
-	int x_start, y_start, x_end, y_end;
-}NslROI;
-
 typedef struct NslConfig_
 {	
 	//Integration time
@@ -414,6 +403,23 @@ typedef struct NslPCD_{
 	int 				distance2D[NSL_LIDAR_TYPE_B_HEIGHT][NSL_LIDAR_TYPE_B_WIDTH];	// distance data
 	double			distance3D[MAX_OUT][NSL_LIDAR_TYPE_B_HEIGHT][NSL_LIDAR_TYPE_B_WIDTH]; // point clouds 3D data
 }NslPCD;
+
+typedef struct NslBitInfo_
+{
+	int			current;
+	double		voltage;
+	double		temperature;
+}NslBitInfo;
+
+typedef struct NslAutoIntROI_{
+	int x_start;
+	int y_start;
+	int x_end;
+	int y_end;
+	int max_overflow;
+	int min_intTime;
+}NslAutoIntROI;
+
 
 #if defined(__cplusplus)
 extern "C" {
@@ -859,7 +865,7 @@ NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_getCorrection(int handle, NslOption::FU
  * 
  * @return NSL_ERROR_TYPE 
  */
-NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_setAutoIntegrationTime(int handle, NslROI *roi, NslOption::FUNCTION_OPTIONS OnOff);
+NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_setAutoIntegrationTime(int handle, NslAutoIntROI *roi, NslOption::FUNCTION_OPTIONS OnOff);
 
 
 
