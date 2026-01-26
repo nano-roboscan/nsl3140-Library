@@ -5,6 +5,9 @@
 #define NSLTOF_API
 #endif
 
+#define NSL_SDK_VERSION_MAJOR			1
+#define NSL_SDK_VERSION_MINOR			8
+
 #define NSL_MAX_HANDLE_SIZE			10
 
 #define NSL_LIDAR_TYPE_A_WIDTH			320
@@ -1034,6 +1037,18 @@ NSLTOF_API NslOption::NslVec3b nsl_getDistanceColor(int value);
  * @return NslVec3b 
  */
 NSLTOF_API NslOption::NslVec3b nsl_getAmplitudeColor(int value);
+
+
+
+/**
+ * @brief Returns the sdk verison
+ * 
+ * @param handle : handle value by nsl_open()
+ * 
+ * @return version number(16bit | 16bit) 
+ */
+NSLTOF_API unsigned int nsl_getSdkVersion(int handle);
+
 
 #if defined(__cplusplus)
 }
