@@ -6,7 +6,7 @@
 #endif
 
 #define NSL_SDK_VERSION_MAJOR			1
-#define NSL_SDK_VERSION_MINOR			8
+#define NSL_SDK_VERSION_MINOR			9
 
 #define NSL_MAX_HANDLE_SIZE			10
 
@@ -483,6 +483,16 @@ NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_streamingOn(int handle, NslOption::OPER
  */
 NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_streamingOff(int handle);
 
+
+/**
+ * @brief Request single lidar frame
+ * 
+ * @param handle : handle value by nsl_open()
+ * @param type : lidar or rgb data type < OPERATION_MODE_OPTIONS >
+ * 
+ * @return NSL_ERROR_TYPE 
+ */
+NSLTOF_API NslOption::NSL_ERROR_TYPE nsl_requestSingleFrame(int handle, NslOption::OPERATION_MODE_OPTIONS type);
 
 
 /**
