@@ -6,7 +6,7 @@
 #endif
 
 #define NSL_SDK_VERSION_MAJOR			1
-#define NSL_SDK_VERSION_MINOR			9
+#define NSL_SDK_VERSION_MINOR			10
 
 #define NSL_MAX_HANDLE_SIZE			10
 
