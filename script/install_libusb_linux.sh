@@ -53,6 +53,7 @@ echo "[INFO] Installing udev rules: $UDEV_RULE_FILE"
 cat <<EOF > $UDEV_RULE_FILE
 # MyUSB SDK - allow user access to USB device
 SUBSYSTEM=="usb", ATTR{idVendor}=="1fc9", ATTR{idProduct}=="0099", MODE="0666"
+KERNEL=="ttyACM*", ATTRS{idVendor}=="1fc9", ATTRS{idProduct}=="0094", MODE:="0666",SYMLINK+="ttyLidar"
 EOF
 
 udevadm control --reload-rules
