@@ -6,7 +6,7 @@
 #endif
 
 #define NSL_SDK_VERSION_MAJOR			1
-#define NSL_SDK_VERSION_MINOR			10
+#define NSL_SDK_VERSION_MINOR			11
 
 #define NSL_MAX_HANDLE_SIZE			10
 
@@ -297,6 +297,14 @@ namespace  NslOption {
     }
 }
 
+typedef struct ImuData_
+{
+	float ax, ay, az;
+	float gx, gy, gz;
+	float qw, qx, qy, qz;
+	float roll, pitch, yaw;
+}ImuData;
+
 typedef struct NslConfig_
 {	
 	//Integration time
@@ -388,23 +396,25 @@ typedef struct NslConfig_
 
 typedef struct NslPCD_{
 	NslOption::OPERATION_MODE_OPTIONS 	operationMode; // DISTANCE_MODE, DISTANCE_AMPLITUDE_MODE, DISTANCE_GRAYSCALE_MODE, RGB_MODE, RGB_DISTANCE_MODE, RGB_DISTANCE_AMPLITUDE_MODE, RGB_DISTANCE_GRAYSCALE_MODE
-	NslOption::LIDAR_TYPE_OPTIONS		lidarType; // TYPE_A(320x240), TYPE_B(800x600)
-	double								temperature;	// temperature
+	NslOption::LIDAR_TYPE_OPTIONS			lidarType; // TYPE_A(320x240), TYPE_B(800x600)
+	double									temperature;	// temperature
 
 	bool 				includeRgb;			// true : include RGB, false : not include RGB
-	bool 				includeLidar;		// tru : include Lidar Data, false : not include Lidar Data
+	bool 				includeLidar;		// true : include Lidar Data, false : not include Lidar Data
+	bool 				includeImu;			// tru e: include IMU(Accel + Gyro) Data, false : not include IMU Data
 	
-	int 				width;				// Width of lidar or rgb image
-	int 				height;				// height of lidar or rgb image
-	int 				roiXMin;			// Starting point of horizontal line
-	int 				roiYMin;			// Starting point of vertical line
-	int 				roiXMax;			// end point of horizontal line
-	int 				roiYMax;			// end point of vertical line
-	int 				binning_h;			// 1 : normal operation, 2 : horizontal binning
-	int 				binning_v;			// 1 : normal operation, 2 : vertical binning
-	int 				amplitude[NSL_LIDAR_TYPE_B_HEIGHT][NSL_LIDAR_TYPE_B_WIDTH];	// amplitude data
-	int 				distance2D[NSL_LIDAR_TYPE_B_HEIGHT][NSL_LIDAR_TYPE_B_WIDTH];	// distance data
-	double			distance3D[MAX_OUT][NSL_LIDAR_TYPE_B_HEIGHT][NSL_LIDAR_TYPE_B_WIDTH]; // point clouds 3D data
+	int 					width;				// Width of lidar or rgb image
+	int 					height;				// height of lidar or rgb image
+	int 					roiXMin;			// Starting point of horizontal line
+	int 					roiYMin;			// Starting point of vertical line
+	int 					roiXMax;			// end point of horizontal line
+	int 					roiYMax;			// end point of vertical line
+	int 					binning_h;			// 1 : normal operation, 2 : horizontal binning
+	int 					binning_v;			// 1 : normal operation, 2 : vertical binning
+	int 					amplitude[NSL_LIDAR_TYPE_B_HEIGHT][NSL_LIDAR_TYPE_B_WIDTH];	// amplitude data
+	int 					distance2D[NSL_LIDAR_TYPE_B_HEIGHT][NSL_LIDAR_TYPE_B_WIDTH];	// distance data
+	double				distance3D[MAX_OUT][NSL_LIDAR_TYPE_B_HEIGHT][NSL_LIDAR_TYPE_B_WIDTH]; // point clouds 3D data
+	ImuData				imuData;
 }NslPCD;
 
 typedef struct NslBitInfo_
